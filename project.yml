@@ -1,0 +1,83 @@
+name: Psst
+options:
+  bundleIdPrefix: com.morganthall
+  deploymentTarget:
+    iOS: "26.0"
+    watchOS: "26.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "0.1"
+    CURRENT_PROJECT_VERSION: "1"
+    CODE_SIGN_STYLE: Automatic
+    # Set your team in Xcode (Signing & Capabilities) or put your Team ID here.
+    DEVELOPMENT_TEAM: ""
+
+targets:
+  # The iPhone app: plays the chirp.
+  Psst:
+    type: application
+    platform: iOS
+    sources: [Shared, iOS]
+    dependencies:
+      - target: PsstWatch
+        embed: true
+        copy:
+          destination: productsDirectory
+          subpath: $(CONTENTS_FOLDER_PATH)/Watch
+    info:
+      path: iOS/Info.plist
+      properties:
+        CFBundleDisplayName: Psst
+        UILaunchScreen: {}
+        UIBackgroundModes: [audio]
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.morganthall.psst
+        TARGETED_DEVICE_FAMILY: "1"
+    scheme: {}
+
+  # The watch app: start/stop screen, and the side that talks to the iPhone.
+  PsstWatch:
+    type: application
+    platform: watchOS
+    sources: [Shared, WatchShared, Watch]
+    dependencies:
+      - target: PsstWatchControls
+    entitlements:
+      path: Watch/PsstWatch.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.morganthall.psst]
+    info:
+      path: Watch/Info.plist
+      properties:
+        CFBundleDisplayName: Psst
+        WKApplication: true
+        WKCompanionAppBundleIdentifier: com.morganthall.psst
+        WKRunsIndependentlyOfCompanionApp: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.morganthall.psst.watchkitapp
+    scheme: {}
+
+  # The watch Control Center button.
+  PsstWatchControls:
+    type: app-extension
+    platform: watchOS
+    sources: [Shared, WatchShared, WatchControls]
+    entitlements:
+      path: WatchControls/PsstWatchControls.entitlements
+      properties:
+        com.apple.security.application-groups: [group.com.morganthall.psst]
+    info:
+      path: WatchControls/Info.plist
+      properties:
+        CFBundleDisplayName: Psst
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.morganthall.psst.watchkitapp.controls
