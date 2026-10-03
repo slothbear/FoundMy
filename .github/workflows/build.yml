@@ -32,3 +32,13 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             | tee build.log | grep -E 'error:|warning:|ExtractAppIntentsMetadata|BUILD (SUCCEEDED|FAILED)' || true
           grep -q 'BUILD SUCCEEDED' build.log
+
+      - name: Show what's inside the built app
+        run: |
+          app=$(find ~/Library/Developer/Xcode/DerivedData -path '*Release-iphoneos/Psst.app' -maxdepth 6 -type d | head -1)
+          [ -n "$app" ] || app=$(find ~/Library/Developer/Xcode/DerivedData -name Psst.app -type d | grep iphoneos | head -1)
+          echo "$app"
+          find "$app" -name '*.app' -o -name '*.appex' | sed "s|$app|Psst.app|"
+          ext=$(find "$app" -name '*.appex' | head -1)
+          [ -n "$ext" ] && plutil -p "$ext/Info.plist" | grep -E 'NSExtension|Identifier|MinimumOS' || true
+          find "$app" -name 'extract.actionsdata' -o -name 'Metadata.appintents' | sed "s|$app|Psst.app|"
