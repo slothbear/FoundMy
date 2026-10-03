@@ -37,6 +37,7 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.morganthall.psst
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         TARGETED_DEVICE_FAMILY: "1"
     scheme: {}
 
@@ -62,6 +63,7 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.morganthall.psst.watchkitapp
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
     scheme: {}
 
   # The watch Control Center button.
