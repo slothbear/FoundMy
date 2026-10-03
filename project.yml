@@ -47,6 +47,7 @@ targets:
     sources: [Shared, WatchShared, Watch]
     dependencies:
       - target: PsstWatchControls
+      - sdk: AppIntents.framework
     entitlements:
       path: Watch/PsstWatch.entitlements
       properties:
@@ -68,6 +69,8 @@ targets:
     type: app-extension
     platform: watchOS
     sources: [Shared, WatchShared, WatchControls]
+    dependencies:
+      - sdk: AppIntents.framework
     entitlements:
       path: WatchControls/PsstWatchControls.entitlements
       properties:

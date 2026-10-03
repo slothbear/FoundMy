@@ -9,7 +9,7 @@ jobs:
     runs-on: macos-26
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Show Xcode
         run: xcodebuild -version && xcodebuild -showsdks
@@ -30,5 +30,5 @@ jobs:
             -scheme Psst \
             -destination 'generic/platform=iOS' \
             CODE_SIGNING_ALLOWED=NO \
-            | tee build.log | grep -E 'error:|warning:|BUILD (SUCCEEDED|FAILED)' || true
+            | tee build.log | grep -E 'error:|warning:|ExtractAppIntentsMetadata|BUILD (SUCCEEDED|FAILED)' || true
           grep -q 'BUILD SUCCEEDED' build.log
